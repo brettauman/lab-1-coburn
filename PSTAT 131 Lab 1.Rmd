@@ -86,4 +86,25 @@ transmute(mpg,
 
 ```
 
+```{r Create grouped summaries of data frames: summarise()}
+#without grouping:
+mpg %>% 
+  summarise(avg_hwy=mean(hwy))
+# with grouping, arranged by highway mileage:
+mpg %>% 
+  group_by(class) %>% 
+  summarise(avg_hwy=mean(hwy)) %>% 
+  arrange(avg_hwy)
+mpg %>% 
+  group_by(manufacturer) %>% 
+  summarise(avg_hwy = mean(hwy)) %>% 
+  arrange(avg_hwy)
+# counts the number of cars produced by each manufacturer, and prints the top 10 manufacturers with largest numbers of cars, arranged by mileage
+mpg %>% 
+  group_by(manufacturer) %>% 
+  summarise(avg_hwy = mean(hwy),
+            count = n()) %>% 
+  filter(count >= 9) %>% 
+  arrange(avg_hwy)
+```
 
