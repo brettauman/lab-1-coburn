@@ -8,3 +8,82 @@ output: pdf_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r Basics of Data Processing}
+library(tidyverse)
+library(tidymodels)
+library(ISLR)
+mpg
+```
+
+```{r Select observations by their value: filter()}
+# only those rows in mpg that represent Audi compact cars:
+mpg %>%
+  filter(class=="compact" & manufacturer=="audi")
+filtered_mpg<-mpg %>% 
+  filter(class=='compact' & manufacturer=='audi')
+```
+
+```{r Activities}
+install.packages("nycflights13")
+library(nycflights13)
+flights
+
+```
+
+```{r Activity 1}
+# Arrival delay of 2+ hours:
+flights_long_delay<-flights %>% 
+  filter(arr_delay>=120)
+# Flew to Houston (IAH or HOU)
+flights_to_Houston<-flights %>% 
+  filter(dest=='HOU' | dest=='IAH')
+# United, Delta, or American
+flights_American_United_Delta<-flights %>% 
+  filter(carrier=='AA' | carrier=='DL' | carrier=='UA')
+# Departed in Summer
+flights_summer<-flights %>% 
+  filter(month==7 | month==8 | month==9)
+# Arrived more than 2 hours late, but didn't leave late
+flights_late_left_on_time_early<-flights %>% 
+  filter(arr_delay>2 & dep_delay<=0)
+# Delayed at least an hour, but made up over 30 minutes in flight
+flightsact6<-flights %>% 
+  filter(dep_delay>=60 & arr_delay<dep_delay-30)
+# Departed between midnight and 6am (inclusive)
+flightmidnight_to_6am<-flights %>% 
+  filter(dep_time>=0 & dep_time<=600)
+```
+
+```{r Select Specific variables or columns by their names: select()}
+mpg_small<-mpg %>% 
+  select(year, hwy, class)
+mpg %>% select(year:class) %>%
+  head()
+mpg %>% select(-(year:class)) %>% 
+  head()
+```
+
+```{r Activity 2}
+flights
+flights %>% select(starts_with("dep") | starts_with("arr"))
+flights %>% select(dep_time, dep_delay, arr_time, arr_delay, arr_time)
+```
+
+```{r Create or add new variables: mutate()}
+# mutate defaults to adding to the beginning of the dataset, so here's how to put it in front:
+mpg %>% 
+  mutate(after_2k=if_else(year<=2000, 0, 1)) %>% 
+  select(after_2k, year, everything()) %>% 
+  head()
+# If you only want to retain the newly created variables, not all variables, use transmute():
+transmute(mpg,
+          after_2k=if_else(year<=2000, 0, 1)) %>% 
+  head()
+```
+
+```{r Activity 3}
+
+```
+
+
