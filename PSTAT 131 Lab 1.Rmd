@@ -1,0 +1,10 @@
+---
+title: "PSTAT 131 Lab 1"
+author: "Brett Goldman"
+date: "9/27/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
